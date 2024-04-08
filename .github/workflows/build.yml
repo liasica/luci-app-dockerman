@@ -15,7 +15,7 @@ jobs:
         id: build_ipk
         run: |
           TAG=$(git rev-parse --short HEAD)
-          echo "TAG=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           mkdir -p /tmp/luci-app-dockerman/usr/lib/lua/luci /tmp/luci-app-dockerman/www/
           [ -d $GITHUB_WORKSPACE/applications/luci-app-dockerman/luasrc ] && cp -R $GITHUB_WORKSPACE/applications/luci-app-dockerman/luasrc/* /tmp/luci-app-dockerman/usr/lib/lua/luci/
           [ -d $GITHUB_WORKSPACE/applications/luci-app-dockerman/root ] && cp -R $GITHUB_WORKSPACE/applications/luci-app-dockerman/root/* /tmp/luci-app-dockerman/
