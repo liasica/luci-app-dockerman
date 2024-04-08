@@ -1,19 +1,16 @@
+name: Build IPK
+
 on:
   workflow_dispatch:
   push:
-#     Sequence of patterns matched against refs/tags
-    tags:
-    - '*' # Tag events
-
-name: Upload Release Asset
+    branches: [ "master" ]
 
 jobs:
   build:
     name: Upload Release Asset
     runs-on: ubuntu-latest
     steps:
-      - name: checkout codes
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: build
         id: build_ipk
         run: |
