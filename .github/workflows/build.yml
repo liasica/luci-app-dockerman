@@ -14,7 +14,7 @@ jobs:
       - name: build
         id: build_ipk
         run: |
-          TAG=${GITHUB_REF#refs/tags/}
+          TAG=$(git rev-parse --short HEAD)
           echo ::set-output name=tag_name::${TAG}
           mkdir -p /tmp/luci-app-dockerman/usr/lib/lua/luci /tmp/luci-app-dockerman/www/
           [ -d $GITHUB_WORKSPACE/applications/luci-app-dockerman/luasrc ] && cp -R $GITHUB_WORKSPACE/applications/luci-app-dockerman/luasrc/* /tmp/luci-app-dockerman/usr/lib/lua/luci/
