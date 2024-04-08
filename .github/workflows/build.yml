@@ -15,7 +15,7 @@ jobs:
         id: build_ipk
         run: |
           TAG=$(git rev-parse --short HEAD)
-          echo ::set-output name=tag_name::${TAG}
+          echo "TAG=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
           mkdir -p /tmp/luci-app-dockerman/usr/lib/lua/luci /tmp/luci-app-dockerman/www/
           [ -d $GITHUB_WORKSPACE/applications/luci-app-dockerman/luasrc ] && cp -R $GITHUB_WORKSPACE/applications/luci-app-dockerman/luasrc/* /tmp/luci-app-dockerman/usr/lib/lua/luci/
           [ -d $GITHUB_WORKSPACE/applications/luci-app-dockerman/root ] && cp -R $GITHUB_WORKSPACE/applications/luci-app-dockerman/root/* /tmp/luci-app-dockerman/
@@ -56,8 +56,14 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: luci-app-dockerman_${{ steps.build_ipk.outputs.tag_name }}_all.ipk
-          path: /tmp/luci-app-dockerman_${{ steps.build_ipk.outputs.tag_name }}_all.ipk
+          name: luci-app-dockerman_${{ env.TAG }}_all.ipk
+          path: /tmp/luci-app-dockerman_${{ env.TAG }}_all.ipk
+          
+      - name: Release
+        uses: softprops/action-gh-release@v2.0.4
+        with:
+          tag_name: ${{ env.TAG }}
+          files: /tmp/luci-app-dockerman_${{ env.TAG }}_all.ipk
      
       # - name: Upload Release Asset
       #   id: upload-release-asset 
